@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Biner ke Desimal</title>
+    <style>
+        body { font-family: 'Segoe UI'; text-align: center; background: #78ad62; color: white;}
+
+        h1 { font-size: 50px; color: #f7f3e5; }
+        input { color:bisque : 12px; font-size: 20px; width: 80px;  text-align: center; }
+        button { font-size: 20px;  background: #eebab7; color: white; transition: 0.3s; }
+       
+        #hasil { font-weight: bold; height: 20px; margin-top: 20px; }
+        .skor-box { font-size: 20px; margin-top: 20px; color: #a9e6c2; }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h2>Ubah Angka Biner ini ke Desimal</h2>
+        <p id="level-text">Level: Mudah</p>
+        <h1 id="biner-display">1010</h1>
+        <input type="number" id="jawaban" placeholder="?">
+        <button onclick="LihatJawaban()">LihatJawaban</button>
+        <div id="hasil"></div>
+        <div class="skor-box">Skor: <span id="skor">0</span></div>
+    </div>
+
+    <script>
+        let skor = 0;
+        let angkaBenar = 0;
+
+        function buatSoal() {
+            // LOGIKA VARIATIF & MAKIN SUSAH:
+            let limit = 20; // Awalnya angka 1-20 (biner pendek)
+            
+            if (skor >= 30) { 
+                limit = 40; // Skor 30+ jadi angka 21-40
+                document.getElementById('level-text').innerText = "Level: Lumayan";
+            }
+            if (skor >= 70) { 
+                limit = 60; // Skor 70+ jadi angka 41-60 (biner panjang)
+                document.getElementById('level-text').innerText = "Level: Sulit!";
+            }
+           
+
+            // Generate angka acak berdasarkan limit di atas
+            angkaBenar = Math.floor(Math.random() * limit) + 1;
+            
+            document.getElementById('biner-display').innerText = angkaBenar.toString(2);
+            document.getElementById('jawaban').value = "";
+            document.getElementById('hasil').innerText = "";
+            document.getElementById('jawaban').focus();
+        }
+
+        function cekJawaban() {
+            let inputUser = document.getElementById('jawaban').value;
+            let areaHasil = document.getElementById('hasil');
+
+            if (inputUser == angkaBenar) {
+                skor += 10;
+                areaHasil.innerText = "✅ HEBAT! +10 Poin";
+                areaHasil.style.color = "#2ecc71";
+                document.getElementById('skor').innerText = skor;
+                setTimeout(buatSoal, 1000); 
+            } else {
+                areaHasil.innerText = "❌ SALAH! Coba lagi.";
+                areaHasil.style.color = "#e74c3c";
+            }
+        }
+
+        buatSoal();
+        
+        document.getElementById("jawaban").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                cekJawaban();
+            }
+        });
+    </script>
+</body>
+</html>
